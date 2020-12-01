@@ -33,4 +33,37 @@ class ListArticleTest extends TestCase
     		]
     	]);
     }
+    /**
+     * A basic feature test example.
+     *
+     * @test
+     */
+    public function can_fetch_all_articles()
+    {
+        $articles = Article::factory(10)->create();
+        $response = $this->getJson(route('api.v1.articles.index'));
+        foreach ($articles as $key => $article) {
+            $data[] = [
+                'type' => 'articles',
+                'id'  => (string) $article->getRouteKey(),
+                'attributes' => [
+                    'title' => $article->title,
+                    'slug' => $article->slug,
+                    'content' => $article->content,
+                ],
+                'links' => [
+                    'self' => url(route('api.v1.articles.show',$article)),
+                ]
+            ];
+        }
+        $response->assertExactJson([
+            'data' => $data,
+            'self' => [
+                'links' => route('api.v1.articles.index')
+            ],
+            'meta' => [
+                'ArticleCount' => count($articles)
+            ]
+        ]);
+    }
   }

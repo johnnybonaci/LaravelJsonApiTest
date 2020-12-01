@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasSorts;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Article extends Model
 {
-    use HasFactory;
+    use HasFactory, HasSorts;
 
     /**
      * The attributes that aren't mass assignable.
@@ -37,4 +40,6 @@ class Article extends Model
     {
         return $this->belongsTo(\App\Models\User::class);
     }
+
+
 }
