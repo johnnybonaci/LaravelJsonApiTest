@@ -18,12 +18,6 @@ class ArticleCollection extends ResourceCollection
     {
        return [
         'data' => $this->collection,
-        'self' => [
-            'links' => route('api.v1.articles.index')
-        ],
-        'meta' => [
-            'ArticleCount' => $this->collection->count()
-        ]
     ];
 }
 }

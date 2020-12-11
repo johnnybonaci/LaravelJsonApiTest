@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class Article extends Model
 {
-    use HasFactory, HasSorts;
+    use HasFactory;
 
     /**
      * The attributes that aren't mass assignable.
@@ -18,6 +18,8 @@ class Article extends Model
      * @var array
      */
     protected $guarded = [];
+
+    public $allowedSorts = ['title', 'content'];
 
     /**
      * The attributes that should be cast to native types.

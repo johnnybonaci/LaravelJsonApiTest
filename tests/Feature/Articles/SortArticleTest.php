@@ -47,4 +47,50 @@ class SortArticleTest extends TestCase
     		'A Title',
     	]);
     }
-  }
+    /**
+     * A basic feature test example.
+     *
+     * @test
+     */
+    public function can_sort_articles_by_title_and_content()
+    {
+        Article::factory()->create([
+            'title' => 'D Title',
+            'content' => 'A content'
+        ]);
+        Article::factory()->create([
+            'title' => 'B Title',
+            'content' => 'C content'
+        ]);
+        Article::factory()->create([
+            'title' => 'C Title',
+            'content' => 'D content'
+        ]);
+        Article::factory()->create([
+            'title' => 'A Title',
+            'content' => 'B content'
+        ]);
+        $response = $this->getJson(route('api.v1.articles.index', ['sort' => 'title,-content']));
+        $response->assertSeeInOrder([
+            'A Title',
+            'B Title',
+            'C Title',
+            'D Title'
+        ]);
+    }
+
+    /**
+     * A basic feature test example.
+     *
+     * @test
+     */
+    public function it_cannot_sort_articles_by_unknow_fields()
+    {
+        Article::factory()->create(['title' => 'D Title']);
+        Article::factory()->create(['title' => 'B Title']);
+        Article::factory()->create(['title' => 'C Title']);
+        Article::factory()->create(['title' => 'A Title']);
+        $response = $this->getJson(route('api.v1.articles.index',['sort=unknow']));
+        $response->assertStatus(400);
+    }
+}

@@ -13,7 +13,7 @@ class ArticleController extends Controller
 {
 	public function index (){
 
-		$articles = Article::applySorts(request('sort'))->get();
+		$articles = Article::applySorts()->jsonPaginate();
 		return ArticleCollection::make($articles);
 	}
 	public function show (Article $article) {
